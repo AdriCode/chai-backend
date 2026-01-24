@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon -r dotenv/config src/index.js"
   },
   "author": "ashwath",
   "license": "ISC",
@@ -14,5 +14,10 @@
     "nodemon": "^3.1.11",
     "npm": "^10.9.4",
     "prettier": "^3.8.1"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.1.5"
   }
 }

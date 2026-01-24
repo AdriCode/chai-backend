@@ -10,6 +10,9 @@
   "author": "ashwath",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "i": "^0.3.7",
+    "nodemon": "^3.1.11",
+    "npm": "^10.9.4",
+    "prettier": "^3.8.1"
   }
 }

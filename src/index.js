@@ -1,4 +1,5 @@
 // require('dotenv').config({path:./env}) 
+// this is just how to connect the db
 import dotenv from "dotenv"
 import connectDB from "./db/index.js"
 
@@ -7,10 +8,16 @@ dotenv.config({
 })
 
 
-
+// this is an asynchronous function, this returns a promise 
 connectDB()
-
-
+.then(()=>{
+    app.listen(process.env.PORT || 8000 , ()=>{
+        console.log('Server is running at port: ',process.env.PORT);
+    })
+})
+.catch((e)=>{
+    console.log("DB mongo connection failed !!", e);
+})
 
 
 // import mongoose from "mongoose";

@@ -10,29 +10,33 @@ const registerUser = asyncHandler( async (req,res)=> {
     // })
 
     // take values first
-    const {fullname, username, email, password} = req.body
+    const {fullName, username, email, password} = req.body
     // console.log(email);
     // console.log(username);
     // console.log(password);
     if(
-        [fullname, username, email, password].some((field)=> field?.trim()==="")   
+        [fullName, username, email, password].some((field)=> field?.trim()==="")   
     )
     {
         throw new ApiError(400,"All fields are required")
     }
 
     // now check if user already exits
-    const existedUser = User.findOne({
+    const existedUser = await User.findOne({
         $or: [{username},{email}]
     })
 
     if(existedUser){
         throw new ApiError(409,"User with username or email already exits")
     }
-
+    // console.log(`existed User : ${existedUser}`);
+    
     // now check for images, avatar
-
+    
     // now weve seen, most of our content lies in req.body, now multer gives us extra fields
+    // back tix cant store object only primitive data types
+    // console.log(`req.files  :` , req.files);
+    
     const avatarLocalPath = req.files?.avatar[0]?.path
     const coverImageLocalPath = req.files?.coverImage[0]?.path
     // avatar has to be there
@@ -43,12 +47,13 @@ const registerUser = asyncHandler( async (req,res)=> {
     const avatar = await uploadOnCloudinary(avatarLocalPath)
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
+    // console.log("avatar:" ,avatar);
     if(!avatar)
         throw new ApiError(400,"Avatar file is required")
 
     // create user object - create entry in db
     const user = await User.create({
-        fullname,
+        fullName,
         username: username.toLowerCase(),
         email,
         password,
